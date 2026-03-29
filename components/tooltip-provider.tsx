@@ -35,21 +35,44 @@ export function TooltipProvider({ children }: { children: ReactNode }) {
     const el = anchorRef.current;
     const portal = portalRef.current;
     if (!el || !portal || content === null) return;
+
     const r = el.getBoundingClientRect();
-    let left = r.left;
-    const top = r.bottom + 10;
-    portal.style.left = `${left}px`;
-    portal.style.top = `${top}px`;
+    const anchorCenter = r.left + r.width / 2;
+    const gap = 8;
+    const margin = 12;
+
     portal.classList.add("is-visible");
+    portal.style.visibility = "hidden";
+    portal.style.left = "0px";
+    portal.style.top = `${r.bottom + gap}px`;
+
     const pw = portal.offsetWidth;
-    if (left + pw > window.innerWidth - 12) {
-      portal.style.left = `${window.innerWidth - pw - 12}px`;
-    }
+
+    let left = anchorCenter - pw / 2;
+    left = Math.min(Math.max(left, margin), window.innerWidth - pw - margin);
+
+    portal.style.left = `${left}px`;
+    portal.style.top = `${r.bottom + gap}px`;
+    portal.style.visibility = "";
+
+    const arrowInset = 12;
+    const arrowX = Math.min(
+      Math.max(anchorCenter - left, arrowInset),
+      pw - arrowInset,
+    );
+    portal.style.setProperty("--tooltip-arrow-x", `${arrowX}px`);
   }, [content]);
 
   useLayoutEffect(() => {
+    const portal = portalRef.current;
     if (content === null) {
-      portalRef.current?.classList.remove("is-visible");
+      if (portal) {
+        portal.classList.remove("is-visible");
+        portal.style.removeProperty("--tooltip-arrow-x");
+        portal.style.visibility = "";
+        portal.style.left = "";
+        portal.style.top = "";
+      }
       return;
     }
     applyPosition();

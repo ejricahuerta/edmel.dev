@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "edmel.dev",
   description:
-    "Custom web development — enterprise quality, startup speed. Edmel Ricahuerta.",
+    "Custom web development with enterprise quality and startup speed. Edmel Ricahuerta.",
 };
 
 export default function RootLayout({
