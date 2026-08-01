@@ -1,4 +1,5 @@
-import { ContactForm } from "@/components/contact-form";
+import Image from "next/image";
+import { HeroPrompt } from "@/components/hero-prompt";
 import { KnownIssues } from "@/components/known-issues";
 import { Reveal } from "@/components/reveal";
 import { Squiggle } from "@/components/squiggle";
@@ -25,7 +26,17 @@ export default function Home() {
     <>
       <nav>
         <a href="#" className="nav-logo">
-          edmel<span>.dev</span>
+          <Image
+            src="/edmel.png"
+            alt=""
+            width={32}
+            height={32}
+            className="nav-avatar"
+            priority
+          />
+          <span className="nav-logo-text">
+            edmel<span>.dev</span>
+          </span>
         </a>
         <div className="nav-actions">
           <div className="nav-social">
@@ -68,145 +79,131 @@ export default function Home() {
             <span className="h-str">Startup speed.</span>
           </h1>
           <p className="hero-sub">
-            10 years in web dev. 6+ as{" "}
+            You vibe-coded something real. Now it looks like{" "}
             <Squiggle
               variant="warn"
-              code="NoTeamRequired"
+              code="AiSlopDetected"
               message={
                 <>
-                  Expected: <span className="tt-type">team[]</span>, found:{" "}
-                  <span className="tt-type">1</span>
+                  Expected: <span className="tt-type">brand</span>, received:{" "}
+                  <span className="tt-type">genericUI</span>
                 </>
               }
             >
-              sole architect
+              AI slop
             </Squiggle>{" "}
-            of production SaaS platforms. I take your{" "}
+            and the{" "}
             <Squiggle
               variant="error"
-              code="ProblemUnsolved"
+              code="RlsMissing"
               message={
                 <>
-                  No software found to handle{" "}
-                  <span className="tt-type">businessProblem</span>
+                  public tables without{" "}
+                  <span className="tt-type">rowLevelSecurity</span>
                 </>
               }
             >
-              business problem
-            </Squiggle>{" "}
-            from whiteboard to production.
+              data isn&apos;t locked down
+            </Squiggle>
+            . I de-slop the UI, harden auth &amp; storage, and rebuild what
+            can&apos;t be saved.
           </p>
         </div>
 
-        <div className="form-card" id="contact">
-          <div className="form-header">
-            <div className="form-header-dot" />
-            <span className="form-header-label">new_project.json</span>
-            <span className="form-availability">// 2 spots left this quarter</span>
-          </div>
-          <ContactForm />
-        </div>
+        <HeroPrompt />
       </div>
 
       <Ticker />
 
       <section id="services">
-        <div className="sec-label">/// what I do</div>
+        <div className="sec-label">/// what I fix</div>
         <Reveal className="services">
           <div className="svc">
             <div className="svc-n">// 01</div>
             <div className="svc-t">
-              Turn your idea into a{" "}
+              De-slop the{" "}
               <Squiggle
                 variant="warn"
-                code="IdeaNotImplemented"
+                code="GenericUI"
                 message={
                   <>
-                    Property <span className="tt-type">workingSoftware</span> is
-                    undefined
+                    Type <span className="tt-type">AiTemplate</span> is not
+                    assignable to <span className="tt-type">Brand</span>
                   </>
                 }
               >
-                working product
+                UI
               </Squiggle>
             </div>
             <div className="svc-d">
-              You have a business problem and no software to solve it. I take it
-              from whiteboard to live with paying users, without a team of ten or
-              a six-month timeline.
+              Kill the generic AI look. Typography, layout, and brand that feel
+              intentional, not another card stack that could belong to anyone.
             </div>
           </div>
           <div className="svc">
             <div className="svc-n">// 02</div>
             <div className="svc-t">
-              Replace the{" "}
+              Lock down your{" "}
               <Squiggle
                 variant="error"
-                code="BottleneckDetected"
+                code="DataExposed"
                 message={
                   <>
-                    Type <span className="tt-type">Spreadsheet</span> is not
-                    assignable to <span className="tt-type">Automation</span>
+                    Expected: <span className="tt-type">authorizedAccess</span>,
+                    received: <span className="tt-type">publicSelect</span>
                   </>
                 }
               >
-                manual work
-              </Squiggle>{" "}
-              slowing you down
+                data
+              </Squiggle>
             </div>
             <div className="svc-d">
-              Repetitive tasks, slow internal tools, workflows held together by
-              spreadsheets. I build the automation that gives your team their time
-              back.
+              Auth, RLS, secrets, API routes. Stop treating &quot;it works in the
+              demo&quot; as a security model.
             </div>
           </div>
           <div className="svc">
             <div className="svc-n">// 03</div>
             <div className="svc-t">
-              Add{" "}
+              Stabilize what you{" "}
               <Squiggle
                 variant="warn"
-                code="AINotDeployed"
+                code="VibeUnstable"
                 message={
                   <>
-                    Expected production integration, received{" "}
-                    <span className="tt-type">pitchDeck</span>
+                    Next prompt may overwrite{" "}
+                    <span className="tt-type">workingCode</span>
                   </>
                 }
               >
-                AI
-              </Squiggle>{" "}
-              where it actually makes a difference
+                vibe-coded
+              </Squiggle>
             </div>
             <div className="svc-d">
-              Not AI for the pitch deck. AI that handles real calls, reads real
-              reports, and writes real outreach. Production-ready integrations that
-              work the day you go live.
+              Tests where it hurts, seams where AI pasted chaos, so the next
+              Cursor session doesn’t break production.
             </div>
           </div>
           <div className="svc">
             <div className="svc-n">// 04</div>
             <div className="svc-t">
-              Build it so it{" "}
+              Rebuild what{" "}
               <Squiggle
                 variant="error"
-                code="ScalabilityUndefined"
+                code="Unmaintainable"
                 message={
                   <>
                     Architecture not found:{" "}
-                    <span className="tt-type">day one decisions</span> matter
+                    <span className="tt-type">cannotBeSaved</span>
                   </>
                 }
               >
-                scales
-              </Squiggle>{" "}
-              when you do
+                can&apos;t be saved
+              </Squiggle>
             </div>
             <div className="svc-d">
-              The decisions made on day one determine whether your product
-              survives growth. I&apos;ve kept platforms running at enterprise
-              scale for 5+ years without an ops team. That&apos;s not luck.
-              It&apos;s how I build.
+              Keep the product idea. Replace the parts that are unmaintainable.
+              Phased, not a six-month freeze.
             </div>
           </div>
         </Reveal>
@@ -223,7 +220,8 @@ export default function Home() {
               </p>
               <p className="suite-desc">
                 3 live AI-powered tools. One umbrella brand. Each shipped as sole
-                engineer, from concept to production.
+                engineer, from concept to production apps that don’t read as
+                generated filler.
               </p>
               <div className="suite-stack">
                 <span>SvelteKit</span>
@@ -335,6 +333,80 @@ export default function Home() {
               </div>
             </a>
             </div>
+
+            <div className="work-intro work-intro-follow">
+              <p className="work-suite-kicker">
+                <span className="suite-doc-prefix">///</span>{" "}
+                <span className="suite-name-text">Client builds</span>
+              </p>
+              <p className="suite-desc">
+                Live production sites for local businesses. Designed, built, and
+                shipped end to end.
+              </p>
+            </div>
+            <div className="prod-list">
+              <a
+                href="https://6ixback.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="prod-card"
+              >
+                <div className="prod-top">
+                  <span className="prod-name">6ixBack</span>
+                  <span className="prod-url">
+                    6ixback.ca <ExternalIcon />
+                  </span>
+                </div>
+                <div className="prod-desc">
+                  Toronto and the GTA&apos;s home for{" "}
+                  <Squiggle
+                    variant="warn"
+                    code="CourtNotFound"
+                    message={
+                      <>
+                        Cannot resolve{" "}
+                        <span className="tt-type">pickupGame</span> without a
+                        schedule
+                      </>
+                    }
+                  >
+                    pickup volleyball
+                  </Squiggle>
+                  : browse drop-ins, join leagues, and host games with direct
+                  e-Transfer to captains. Zero platform fees.
+                </div>
+              </a>
+              <a
+                href="https://clearwego.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="prod-card"
+              >
+                <div className="prod-top">
+                  <span className="prod-name">Clear We Go</span>
+                  <span className="prod-url">
+                    clearwego.ca <ExternalIcon />
+                  </span>
+                </div>
+                <div className="prod-desc">
+                  Property, estate, and house{" "}
+                  <Squiggle
+                    variant="error"
+                    code="SpaceUncleared"
+                    message={
+                      <>
+                        Expected: <span className="tt-type">emptyReady</span>,
+                        received: <span className="tt-type">cluttered</span>
+                      </>
+                    }
+                  >
+                    cleanout service
+                  </Squiggle>{" "}
+                  for Toronto and the GTA. Quote flow, documented clearing, and
+                  a path from assessment to swept handoff.
+                </div>
+              </a>
+            </div>
           </>
           <a href="#contact" className="more-link">
             // more in the works, get in touch
@@ -357,16 +429,16 @@ export default function Home() {
         </div>
         <div className="contact-cta-body">
           <div className="eyebrow contact-cta-eyebrow">
-            currently taking on new projects
+            currently taking rescue projects
           </div>
           <h2>
-            <span className="h-fn">You&apos;ve been working around it</span>
+            <span className="h-fn">Don&apos;t ship the demo</span>
             <br />
-            <span className="h-str">long enough.</span>
+            <span className="h-str">as the product.</span>
           </h2>
           <div className="contact-links">
             <a href="#contact" className="primary">
-              Start a Project
+              Get it production-ready
             </a>
           </div>
         </div>

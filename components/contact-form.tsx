@@ -3,11 +3,15 @@
 import { useCallback, useState } from "react";
 import { contactSchema, PROJECT_TYPES } from "@/lib/contact-schema";
 
-export function ContactForm() {
+type ContactFormProps = {
+  initialMessage?: string;
+};
+
+export function ContactForm({ initialMessage = "" }: ContactFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [projectType, setProjectType] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(initialMessage);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -126,7 +130,7 @@ export function ContactForm() {
         </div>
 
         <div className="form-field">
-          <label htmlFor="f-type">Project type</label>
+          <label htmlFor="f-type">What do you need?</label>
           <select
             id="f-type"
             name="projectType"
@@ -155,11 +159,11 @@ export function ContactForm() {
         </div>
 
         <div className="form-field">
-          <label htmlFor="f-msg">Tell me about your project</label>
+          <label htmlFor="f-msg">What&apos;s broken?</label>
           <textarea
             id="f-msg"
             name="message"
-            placeholder="Brief description, timeline, anything useful…"
+            placeholder="Stack, what looks like slop, what's insecure, anything useful…"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-invalid={Boolean(fieldErrors.message)}
@@ -186,7 +190,7 @@ export function ContactForm() {
             onClick={() => void submit()}
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Sending…" : "Start a Project"}
+            {isSubmitting ? "Sending…" : "Get it production-ready"}
           </button>
         </div>
       </div>

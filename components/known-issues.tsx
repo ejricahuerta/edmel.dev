@@ -37,43 +37,39 @@ const ISSUES: KnownIssue[] = [
   {
     id: "001",
     fileLabel: "issue-001.md",
-    summary: "can't add features without breaking what's there",
+    summary: "UI looks like every other AI app",
     detail: [
       {
         type: "p",
-        text: "New work touches old code paths nobody fully remembers. Without tests or clear seams, every deploy feels like roulette.",
+        text: "Inter, purple gradients, identical card stacks. Users can tell it was generated before they read a word.",
       },
       {
         type: "bullets",
-        lead: "What helps is tightening boundaries first:",
+        lead: "De-slop means intentional design:",
         items: [
-          "smaller changes",
-          "observable behavior",
-          "coverage where risk lives",
+          "typography and layout that match the brand",
+          "one clear composition per screen",
+          "UI that feels built, not prompted",
         ],
-      },
-      {
-        type: "p",
-        text: "Then you ship features in slices instead of big bangs.",
       },
     ],
   },
   {
     id: "002",
     fileLabel: "issue-002.md",
-    summary: "every change needs a developer you no longer have",
+    summary: "tables and auth are wide open",
     detail: [
       {
         type: "p",
-        text: "The system made sense to one person or one agency. They’re not in Slack anymore, and the repo never had a tour guide.",
+        text: 'The demo works because everything is public. RLS is missing, roles are fuzzy, and "logged in" is not the same as authorized.',
       },
       {
         type: "bullets",
-        lead: "I treat handoff as part of delivery:",
+        lead: "Lock it down properly:",
         items: [
-          "sane structure",
-          "notes where they matter",
-          "a codebase the next person can run without a séance",
+          "row-level security that matches real users",
+          "auth flows that don't trust the client",
+          "API routes that check who is asking",
         ],
       },
     ],
@@ -81,34 +77,34 @@ const ISSUES: KnownIssue[] = [
   {
     id: "003",
     fileLabel: "issue-003.md",
-    summary: "site works but nobody inside the business can touch it",
+    summary: "secrets and keys live in the client",
     detail: [
       {
         type: "p",
-        text: "Marketing can’t fix copy. Ops can’t tweak a field. Everything routes through “someone technical” who isn’t on payroll.",
+        text: "Service keys, OpenAI tokens, or admin URLs ended up in the browser bundle. It worked in Cursor. It is a liability in production.",
       },
       {
         type: "p",
-        text: "You don’t always need a full CMS. Sometimes it’s guardrails, admin surfaces, or content hooks that match how your team actually works.",
+        text: "I move secrets server-side, rotate what leaked, and leave a setup the next deploy won't undo.",
       },
     ],
   },
   {
     id: "004",
     fileLabel: "issue-004.md",
-    summary: "outgrown the platform, and a rebuild feels too risky",
+    summary: "AI breaks three things when you add one",
     detail: [
       {
         type: "p",
-        text: "The starter stack carried you far. Now it fights your workflows, and a ground-up rewrite sounds expensive and scary.",
+        text: "Each prompt patches a symptom and rewrites something that worked. No seams, no tests, no map of what is safe to touch.",
       },
       {
         type: "bullets",
-        lead: "The middle path is often a phased move:",
+        lead: "Stabilize first:",
         items: [
-          "stabilize what pays the bills",
-          "extract the worst bottlenecks",
-          "replace in chunks instead of freezing the business for a big bang",
+          "boundaries where the AI pasted chaos",
+          "coverage where risk lives",
+          "changes you can ship without roulette",
         ],
       },
     ],
@@ -116,15 +112,15 @@ const ISSUES: KnownIssue[] = [
   {
     id: "005",
     fileLabel: "issue-005.md",
-    summary: "paying monthly for a tool that's in the way",
+    summary: "demo works, real users scare you",
     detail: [
       {
         type: "p",
-        text: "Subscriptions pile up. Each one promised speed, but together they’re friction, export limits, and workarounds.",
+        text: "Friends said it looked cool. Paying users mean edge cases, data you can't lose, and a product that has to stay up.",
       },
       {
         type: "p",
-        text: "A tighter stack you own can cost less in dollars and less in context-switching. The goal isn’t dogma; it’s fewer tools that actually fit the job.",
+        text: "I harden what can be saved and rebuild what can't, so you can keep shipping without freezing the business for a rewrite.",
       },
     ],
   },
