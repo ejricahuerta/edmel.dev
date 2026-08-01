@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const PROJECT_TYPES = [
-  "Custom web application",
-  "Multi-tenant SaaS platform",
-  "AI / automation integration",
-  "Auth & identity (SSO / OAuth)",
+  "De-slop / redesign the UI",
+  "Lock down auth & data",
+  "Stabilize a vibe-coded codebase",
+  "Partial rebuild (keep what works)",
   "Something else",
 ] as const;
 
