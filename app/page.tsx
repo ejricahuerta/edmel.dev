@@ -1,74 +1,17 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ExternalIcon } from "@/components/external-icon";
 import { HeroPrompt } from "@/components/hero-prompt";
 import { KnownIssues } from "@/components/known-issues";
 import { Reveal } from "@/components/reveal";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteNav } from "@/components/site-nav";
 import { Squiggle } from "@/components/squiggle";
 import { Ticker } from "@/components/ticker";
-
-function ExternalIcon() {
-  return (
-    <svg
-      width="10"
-      height="10"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      aria-hidden
-    >
-      <path d="M7 17L17 7M17 7H7M17 7v10" />
-    </svg>
-  );
-}
 
 export default function Home() {
   return (
     <>
-      <nav>
-        <a href="#" className="nav-logo">
-          <Image
-            src="/edmel.png"
-            alt=""
-            width={32}
-            height={32}
-            className="nav-avatar"
-            priority
-          />
-          <span className="nav-logo-text">
-            edmel<span>.dev</span>
-          </span>
-        </a>
-        <div className="nav-actions">
-          <div className="nav-social">
-            <a
-              href="https://github.com/ejricahuerta"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-            <span aria-hidden="true"> · </span>
-            <a
-              href="https://linkedin.com/in/exricahuerta"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-            <span aria-hidden="true"> · </span>
-            <a
-              href="https://www.instagram.com/dev.exd"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Instagram
-            </a>
-          </div>
-          <a href="#contact" className="nav-cta">
-            Get in touch
-          </a>
-        </div>
-      </nav>
+      <SiteNav />
 
       <div className="hero">
         <div className="hero-left">
@@ -345,16 +288,11 @@ export default function Home() {
               </p>
             </div>
             <div className="prod-list">
-              <a
-                href="https://6ixback.ca"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="prod-card"
-              >
+              <Link href="/work/6ixback" className="prod-card cs-feature">
                 <div className="prod-top">
                   <span className="prod-name">6ixBack</span>
                   <span className="prod-url">
-                    6ixback.ca <ExternalIcon />
+                    read the case study <ExternalIcon />
                   </span>
                 </div>
                 <div className="prod-desc">
@@ -373,9 +311,10 @@ export default function Home() {
                     pickup volleyball
                   </Squiggle>
                   : browse drop-ins, join leagues, and host games with direct
-                  e-Transfer to captains. Zero platform fees.
+                  e-Transfer to captains. Zero platform fees — and no payment
+                  processor anywhere in the system.
                 </div>
-              </a>
+              </Link>
               <a
                 href="https://clearwego.ca"
                 target="_blank"
@@ -444,12 +383,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer>
-        <span className="footer-brand">edmel.dev</span>
-        <span className="footer-meta">
-          Toronto &amp; GTA · Edmel Ricahuerta
-        </span>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
