@@ -17,9 +17,22 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "edmel.dev",
+  metadataBase: new URL("https://www.edmel.dev"),
+  title: {
+    default: "edmel.dev",
+    template: "%s · edmel.dev",
+  },
   description:
     "Enterprise quality, startup speed. De-slop vibe-coded apps and lock down the data. Edmel Ricahuerta.",
+  openGraph: {
+    type: "website",
+    siteName: "edmel.dev",
+    locale: "en_CA",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
@@ -28,8 +41,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>
+    // Browser extensions (Grammarly, screen recorders) stamp data-* attributes
+    // onto html/body before React hydrates, which trips the hydration warning.
+    // This suppresses only these two elements' own attributes — mismatches
+    // inside components still report normally.
+    <html
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body suppressHydrationWarning>
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
