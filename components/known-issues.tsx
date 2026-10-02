@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Reveal } from "@/components/reveal";
+import { Button, StatusPill, type Status } from "@/components/ui";
 
 type IssueDetailBlock =
   | { type: "p"; text: string }
@@ -10,6 +11,7 @@ type IssueDetailBlock =
 
 type KnownIssue = {
   id: string;
+  status: Status;
   fileLabel: string;
   summary: string;
   detail: IssueDetailBlock[];
@@ -21,9 +23,9 @@ function IssueDetailBlocks({ blocks }: { blocks: IssueDetailBlock[] }) {
       return <p key={i}>{block.text}</p>;
     }
     return (
-      <div key={i} className="issue-detail-block">
+      <div key={i}>
         <p>{block.lead}</p>
-        <ul className="dash-list">
+        <ul className="ed-dash">
           {block.items.map((item, j) => (
             <li key={j}>{item}</li>
           ))}
@@ -36,6 +38,7 @@ function IssueDetailBlocks({ blocks }: { blocks: IssueDetailBlock[] }) {
 const ISSUES: KnownIssue[] = [
   {
     id: "001",
+    status: "open",
     fileLabel: "issue-001.md",
     summary: "UI looks like every other AI app",
     detail: [
@@ -56,6 +59,7 @@ const ISSUES: KnownIssue[] = [
   },
   {
     id: "002",
+    status: "open",
     fileLabel: "issue-002.md",
     summary: "tables and auth are wide open",
     detail: [
@@ -76,6 +80,7 @@ const ISSUES: KnownIssue[] = [
   },
   {
     id: "003",
+    status: "progress",
     fileLabel: "issue-003.md",
     summary: "secrets and keys live in the client",
     detail: [
@@ -91,6 +96,7 @@ const ISSUES: KnownIssue[] = [
   },
   {
     id: "004",
+    status: "progress",
     fileLabel: "issue-004.md",
     summary: "AI breaks three things when you add one",
     detail: [
@@ -111,6 +117,7 @@ const ISSUES: KnownIssue[] = [
   },
   {
     id: "005",
+    status: "resolved",
     fileLabel: "issue-005.md",
     summary: "demo works, real users scare you",
     detail: [
@@ -145,7 +152,13 @@ export function KnownIssues() {
     document.body.style.overflow = "hidden";
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") {
+        const id = openId;
+        close();
+        requestAnimationFrame(() => {
+          document.getElementById(`issue-trigger-${id}`)?.focus();
+        });
+      }
     };
     window.addEventListener("keydown", onKey);
     closeRef.current?.focus();
@@ -158,42 +171,68 @@ export function KnownIssues() {
 
   const active = openId ? ISSUES.find((i) => i.id === openId) : null;
 
+  const closeAndReturnFocus = useCallback(() => {
+    const id = openId;
+    close();
+    if (id) {
+      requestAnimationFrame(() => {
+        document.getElementById(`issue-trigger-${id}`)?.focus();
+      });
+    }
+  }, [openId, close]);
+
+  const counts = ISSUES.reduce(
+    (acc, i) => ({ ...acc, [i.status]: acc[i.status] + 1 }),
+    { open: 0, progress: 0, resolved: 0 } as Record<Status, number>,
+  );
+
   const modal =
     active && portalEl ? (
-      <div
-        className="issue-modal-backdrop"
-        role="presentation"
-        onClick={close}
-      >
+      <div className="ed-scrim" role="presentation" onClick={closeAndReturnFocus}>
         <div
-          className="form-card issue-modal-card"
+          className="ed-dialog"
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="form-header">
-            <div className="form-header-dot" />
-            <span className="form-header-label" id={titleId}>
-              {active.fileLabel}
-            </span>
-            <button
-              ref={closeRef}
-              type="button"
-              className="issue-modal-close"
-              onClick={close}
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </div>
-          <div className="issue-modal-body">
-            <p className="issue-modal-summary">
-              <span className="tt-type">#{active.id}</span>
-              {"  "}
-              {active.summary}
-            </p>
-            <IssueDetailBlocks blocks={active.detail} />
+          <div className="ed-window">
+            <div className="ed-window-bar">
+              <span
+                className="ed-window-dot"
+                style={{
+                  background:
+                    active.status === "resolved"
+                      ? "var(--brand)"
+                      : active.status === "progress"
+                        ? "var(--info)"
+                        : "var(--error)",
+                }}
+                aria-hidden
+              />
+              <span className="ed-window-title">{active.fileLabel}</span>
+              <button
+                ref={closeRef}
+                type="button"
+                className="ed-icon-btn"
+                onClick={closeAndReturnFocus}
+                aria-label="Close"
+              >
+                {"\u2715"}
+              </button>
+            </div>
+            <div className="ed-window-body">
+              <StatusPill status={active.status} />
+              <h3 className="ed-h2" id={titleId}>
+                {active.summary}
+              </h3>
+              <IssueDetailBlocks blocks={active.detail} />
+              <div>
+                <Button href="#contact" arrow onClick={close}>
+                  Fix this in my app
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -202,25 +241,42 @@ export function KnownIssues() {
   return (
     <>
       <Reveal>
-        <div className="known-issues-rows">
+        <ul className="ed-issues">
           {ISSUES.map((issue) => (
-            <button
-              key={issue.id}
-              type="button"
-              className="prod-desc known-issue-trigger"
-              onClick={() => open(issue.id)}
-              aria-haspopup="dialog"
-              aria-expanded={openId === issue.id}
-            >
-              <span className="tt-type">#{issue.id}</span>
-              {"  "}
-              {issue.summary}
-            </button>
+            <li key={issue.id} className="ed-issue">
+              <button
+                id={`issue-trigger-${issue.id}`}
+                type="button"
+                className="ed-issue-btn"
+                onClick={() => open(issue.id)}
+                aria-haspopup="dialog"
+                aria-expanded={openId === issue.id}
+              >
+                <span className="ed-issue-id">#{issue.id}</span>
+                <span className="ed-issue-sum">{issue.summary}</span>
+                <span className="ed-issue-status">
+                  <StatusPill status={issue.status} />
+                </span>
+                <span className="ed-issue-go" aria-hidden>
+                  {"\u2192"}
+                </span>
+              </button>
+            </li>
           ))}
-        </div>
-        <div className="known-issues-foot">
-          <div className="svc-n">// assigned to: edmel</div>
-          <div className="svc-n">// status: open → in progress</div>
+        </ul>
+        <div className="ed-issues-foot">
+          <span>
+            <b>{counts.open}</b> open
+          </span>
+          <span>
+            <b>{counts.progress}</b> in progress
+          </span>
+          <span>
+            <b>{counts.resolved}</b> resolved
+          </span>
+          <span>
+            assigned to: <b>edmel</b>
+          </span>
         </div>
       </Reveal>
       {portalEl && modal ? createPortal(modal, portalEl) : null}

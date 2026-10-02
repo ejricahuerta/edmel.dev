@@ -1,19 +1,25 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import { TooltipProvider } from "@/components/tooltip-provider";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-inter",
+const display = localFont({
+  src: [{ path: "./fonts/BricolageGrotesque-Variable.woff2", weight: "200 800", style: "normal" }],
+  variable: "--font-display",
+  display: "swap",
+  fallback: ["Helvetica Neue", "Arial", "sans-serif"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-jetbrains-mono",
+const mono = localFont({
+  src: [
+    { path: "./fonts/IBMPlexMono-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/IBMPlexMono-400-italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/IBMPlexMono-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/IBMPlexMono-600-normal.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-mono",
+  display: "swap",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });
 
 export const metadata: Metadata = {
@@ -35,6 +41,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0e100f",
+};
+
+// Applies a saved theme before first paint so Paper users don't see a dark flash.
+const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,16 +55,24 @@ export default function RootLayout({
 }>) {
   return (
     // Browser extensions (Grammarly, screen recorders) stamp data-* attributes
-    // onto html/body before React hydrates, which trips the hydration warning.
-    // This suppresses only these two elements' own attributes — mismatches
-    // inside components still report normally.
+    // onto html/body before React hydrates, and the theme script sets
+    // data-theme; suppress only these two elements' own attribute warnings.
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      data-theme="dark"
+      className={`${display.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body suppressHydrationWarning>
-        <TooltipProvider>{children}</TooltipProvider>
+        <a href="#main" className="ed-skip">
+          Skip to content
+        </a>
+        <TooltipProvider>
+          <div className="ed-page">{children}</div>
+        </TooltipProvider>
       </body>
     </html>
   );

@@ -1,5 +1,3 @@
-"use client";
-
 const TOOLS = [
   ".NET 8 / C#",
   "ASP.NET Web API",
@@ -39,28 +37,18 @@ const TOOLS = [
   "WhatsApp Business API",
 ] as const;
 
-const COLORS = [
-  "#569cd6",
-  "#4ec9b0",
-  "#ce9178",
-  "#dcdcaa",
-  "#6a9955",
-  "#c586c0",
-  "#4fc1ff",
-  "#b5cea8",
-];
-
 export function Ticker() {
   const doubled = [...TOOLS, ...TOOLS];
   return (
-    <div className="ticker">
-      <div className="ticker-track">
+    <div className="ed-ticker" role="region" aria-label="Stack I work in">
+      <div className="ed-ticker-track">
         {doubled.map((t, i) => (
-          <span key={`${t}-${i}`} className="t-item">
-            <span
-              className="t-dot"
-              style={{ background: COLORS[i % COLORS.length] }}
-            />
+          <span
+            key={`${t}-${i}`}
+            className="ed-ticker-item"
+            aria-hidden={i >= TOOLS.length ? true : undefined}
+          >
+            <span className="ed-ticker-dot" />
             {t}
           </span>
         ))}

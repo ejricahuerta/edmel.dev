@@ -11,7 +11,9 @@ export const PROJECT_TYPES = [
 export const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(200),
   email: z.string().trim().email("Valid email required"),
-  projectType: z.enum(PROJECT_TYPES),
+  projectType: z.enum(PROJECT_TYPES, {
+    errorMap: () => ({ message: "Pick what you need" }),
+  }),
   message: z.string().trim().min(1, "Tell me about your project").max(10000),
 });
 

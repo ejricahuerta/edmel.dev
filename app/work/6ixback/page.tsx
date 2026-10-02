@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ArchDiagram } from "@/components/case-study/arch-diagram";
 import { Shot } from "@/components/case-study/shot";
 import { StatStrip } from "@/components/case-study/stat-strip";
-import { ExternalIcon } from "@/components/external-icon";
 import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Squiggle } from "@/components/squiggle";
+import { Button, Chips, Mark, SpecList } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "6ixBack — reconciling e-Transfer payments by reading the inbox",
@@ -34,91 +33,80 @@ export const metadata: Metadata = {
 export default function SixBackCaseStudy() {
   return (
     <>
-      <SiteNav logoHref="/" ctaHref="/#contact" />
+      <SiteNav base="/" current="Case study" />
 
       {/* Sections 1-3 render without Reveal: this page's value is indexable
-          prose, and .reveal starts at opacity 0 until client JS runs. Each
+          prose, and .ed-reveal starts at opacity 0 until client JS runs. Each
           Reveal below wraps exactly one section — its 0.06 threshold is
           relative to the observed box, so a wrapper much taller than the
           viewport can never intersect enough to un-hide itself. */}
-      <header className="cs-hero">
-        <div className="cs-hero-left">
-          <div className="eyebrow">Case Study</div>
-          <h1>
-            <span className="h-kw">6ixBack.</span>
-            <br />
-            <span className="h-str">Toronto pickup volleyball.</span>
-          </h1>
-          <p className="hero-sub">
-            Hosts post drop-ins, leagues and tournaments. Players reserve spots.
-            The money moves player-to-host by Interac e-Transfer — no platform
-            cut, no merchant account, no payment processor. Which means nothing
-            ever tells the platform who paid. So I built the thing that works it
-            out.
-          </p>
-          <div className="suite-stack">
-            <span>Next.js 16</span>
-            <span>React 19</span>
-            <span>TypeScript</span>
-            <span>ASP.NET Core</span>
-            <span>EF Core</span>
-            <span>Postgres 16</span>
-            <span>Docker</span>
-            <span>pnpm monorepo</span>
+      <main id="main">
+      <div className="ed-container">
+        <header className="ed-hero">
+          <div className="ed-hero-copy">
+            <span className="ed-eyebrow">Case study</span>
+            <h1 className="ed-display-l">
+              6ixBack.
+              <br />
+              <span className="is-quiet">Toronto pickup volleyball.</span>
+            </h1>
+            <p className="ed-lede">
+              Hosts post drop-ins, leagues and tournaments. Players reserve spots.
+              The money moves player-to-host by Interac e-Transfer — no platform
+              cut, no merchant account, no payment processor. Which means nothing
+              ever tells the platform who paid. So I built the thing that works it
+              out.
+            </p>
+            <Chips
+              items={[
+                "Next.js 16",
+                "React 19",
+                "TypeScript",
+                "ASP.NET Core",
+                "EF Core",
+                "Postgres 16",
+                "Docker",
+                "pnpm monorepo",
+              ]}
+            />
           </div>
-        </div>
 
-        <div className="form-card cs-hero-card">
-          <div className="form-header">
-            <div className="form-header-dot" />
-            <span className="form-header-label">6ixback.json</span>
+          <div className="ed-window">
+            <div className="ed-window-bar">
+              <span className="ed-window-dot is-live" aria-hidden />
+              <span className="ed-window-title">6ixback.json</span>
+              <span className="ed-window-meta">// live</span>
+            </div>
+            <div className="ed-window-body">
+              <SpecList
+                items={[
+                  ["role", "sole engineer"],
+                  ["timeline", "Apr – Sep 2026"],
+                  ["status", "live in production"],
+                  ["scale", "138k lines · 186 test files"],
+                  ["runtimes", "Next.js 16 · .NET 10"],
+                ]}
+              />
+              <Button href="https://6ixback.ca" variant="ghost" external arrow>
+                6ixback.ca
+              </Button>
+            </div>
           </div>
-          <dl className="cs-spec">
-            <div className="cs-spec-row">
-              <dt>role</dt>
-              <dd>sole engineer</dd>
-            </div>
-            <div className="cs-spec-row">
-              <dt>timeline</dt>
-              <dd>Apr – Sep 2026</dd>
-            </div>
-            <div className="cs-spec-row">
-              <dt>status</dt>
-              <dd>live in production</dd>
-            </div>
-            <div className="cs-spec-row">
-              <dt>scale</dt>
-              <dd>138k lines · 186 test files</dd>
-            </div>
-            <div className="cs-spec-row">
-              <dt>runtimes</dt>
-              <dd>Next.js 16 · .NET 10</dd>
-            </div>
-          </dl>
-          <div className="cs-spec-foot">
-            <a
-              href="https://6ixback.ca"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="prod-url"
-            >
-              6ixback.ca <ExternalIcon />
-            </a>
-          </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
-      <section id="at-a-glance">
-        <h2 className="sec-label">/// at a glance</h2>
+      <section className="ed-section" id="at-a-glance" aria-labelledby="at-a-glance-heading">
+        <div className="ed-container">
+        <h2 className="ed-label" id="at-a-glance-heading">at a glance</h2>
         <StatStrip />
+        </div>
       </section>
 
-      <section id="reconciliation">
-        <h2 className="sec-label">
-          /// payment reconciliation, not payment processing
-        </h2>
-        <div className="work-intro">
-          <p className="suite-desc">
+      <section className="ed-section" id="reconciliation" aria-labelledby="reconciliation-heading">
+        <div className="ed-container">
+        <h2 className="ed-label" id="reconciliation-heading">payment reconciliation, not payment processing</h2>
+        <div className="ed-intro">
+          <p className="ed-body">
             Every other booking product I could copy starts from the same
             assumption: a processor takes the money, then tells you it happened.
             Take the processor away and the hardest problem in the system is no
@@ -127,21 +115,21 @@ export default function SixBackCaseStudy() {
             specific Monday night.
           </p>
         </div>
-        <div className="services">
-          <div className="svc">
-            <div className="svc-n">// 01</div>
-            <div className="svc-t">A signed code, per signup</div>
-            <div className="svc-d">
+        <div className="ed-services">
+          <div className="ed-service">
+            <span className="ed-service-n">// 01</span>
+            <h3 className="ed-h2">A signed code, per signup</h3>
+            <div className="ed-service-d">
               Every reservation mints a short code derived from the signup itself
               and signed server-side. It can&apos;t be guessed, and it can&apos;t
               be replayed against a different signup. It rides along in the one
               field a bank transfer actually gives you: the memo.
             </div>
           </div>
-          <div className="svc">
-            <div className="svc-n">// 02</div>
-            <div className="svc-t">The money never touches the platform</div>
-            <div className="svc-d">
+          <div className="ed-service">
+            <span className="ed-service-n">// 02</span>
+            <h3 className="ed-h2">The money never touches the platform</h3>
+            <div className="ed-service-d">
               The player e-Transfers the host directly and pastes the code in the
               message.{" "}
               <Squiggle
@@ -162,10 +150,10 @@ export default function SixBackCaseStudy() {
               system to put in scope.
             </div>
           </div>
-          <div className="svc">
-            <div className="svc-n">// 03</div>
-            <div className="svc-t">Read the inbox, not the webhook</div>
-            <div className="svc-d">
+          <div className="ed-service">
+            <span className="ed-service-n">// 03</span>
+            <h3 className="ed-h2">Read the inbox, not the webhook</h3>
+            <div className="ed-service-d">
               With the host&apos;s consent, the platform reads the host&apos;s own
               inbox over a read-only Google scope they can revoke at any time. It
               finds the Interac notification, extracts the code and the amount,
@@ -174,10 +162,10 @@ export default function SixBackCaseStudy() {
               instead of holding a spot forever.
             </div>
           </div>
-          <div className="svc">
-            <div className="svc-n">// 04</div>
-            <div className="svc-t">The part nobody sees</div>
-            <div className="svc-d">
+          <div className="ed-service">
+            <span className="ed-service-n">// 04</span>
+            <h3 className="ed-h2">The part nobody sees</h3>
+            <div className="ed-service-d">
               A per-game reconciliation view, so when a host asks &ldquo;why is
               this one still unpaid&rdquo; there is an answer instead of a shrug.
               And a daily job that warns a host before their inbox authorization
@@ -186,28 +174,30 @@ export default function SixBackCaseStudy() {
             </div>
           </div>
         </div>
-        <div className="work-intro cs-note">
-          <p className="suite-desc">
+        <div className="cs-note">
+          <p className="ed-body">
             The honest trade-off: inbound reconciliation is polled, not pushed,
             and it always will be. There is no webhook for a bank transfer
             between two strangers. Everything in the design follows from
             accepting that instead of wishing it away.
           </p>
         </div>
+        </div>
       </section>
 
-      <section id="architecture">
-        <h2 className="sec-label">/// architecture</h2>
+      <section className="ed-section" id="architecture" aria-labelledby="architecture-heading">
+        <div className="ed-container">
+        <h2 className="ed-label" id="architecture-heading">architecture</h2>
         <Reveal>
           <figure className="cs-figure">
             <ArchDiagram />
-            <figcaption className="svc-n">
+            <figcaption className="ed-comment">
               // two runtimes, one credential boundary, and the reconciliation
-              loop picked out in yellow
+              loop picked out in lime
             </figcaption>
           </figure>
-          <div className="work-intro cs-note">
-            <ul className="dash-list">
+          <div className="cs-note">
+            <ul className="ed-dash">
               <li>
                 the web tier holds no database credentials — every read and write
                 goes through the API over an authenticated service call, so the
@@ -231,10 +221,12 @@ export default function SixBackCaseStudy() {
             </ul>
           </div>
         </Reveal>
+        </div>
       </section>
 
-      <section id="screens">
-        <h2 className="sec-label">/// what it looks like</h2>
+      <section className="ed-section" id="screens" aria-labelledby="screens-heading">
+        <div className="ed-container">
+        <h2 className="ed-label" id="screens-heading">what it looks like</h2>
         <Reveal>
           <div className="cs-shots">
             <Shot
@@ -257,16 +249,18 @@ export default function SixBackCaseStudy() {
             />
           </div>
         </Reveal>
+        </div>
       </section>
 
-      <section id="practice">
-        <h2 className="sec-label">/// built to survive its own maintainer</h2>
+      <section className="ed-section" id="practice" aria-labelledby="practice-heading">
+        <div className="ed-container">
+        <h2 className="ed-label" id="practice-heading">built to survive its own maintainer</h2>
         <Reveal>
-          <div className="services">
-            <div className="svc">
-              <div className="svc-n">// tests</div>
-              <div className="svc-t">186 test files, on both runtimes</div>
-              <div className="svc-d">
+          <div className="ed-services">
+            <div className="ed-service">
+              <span className="ed-service-n">// tests</span>
+              <h3 className="ed-h2">186 test files, on both runtimes</h3>
+              <div className="ed-service-d">
                 Unit tests sit beside the pure logic they cover — payment
                 matching, recurrence rules, roster removal, redirect
                 sanitisation. The API suite boots the real application and runs
@@ -274,10 +268,10 @@ export default function SixBackCaseStudy() {
                 pretending an in-memory provider is a database.
               </div>
             </div>
-            <div className="svc">
-              <div className="svc-n">// ci</div>
-              <div className="svc-t">Four workflows, one required gate</div>
-              <div className="svc-d">
+            <div className="ed-service">
+              <span className="ed-service-n">// ci</span>
+              <h3 className="ed-h2">Four workflows, one required gate</h3>
+              <div className="ed-service-d">
                 Lint, typecheck and unit tests on the web side; the API suite
                 against a Postgres service container. Every change to either
                 package must carry a changeset, enforced as a merge gate — with a
@@ -285,10 +279,10 @@ export default function SixBackCaseStudy() {
                 two packages version and release independently.
               </div>
             </div>
-            <div className="svc">
-              <div className="svc-n">// migrations</div>
-              <div className="svc-t">A re-platform done in the open</div>
-              <div className="svc-d">
+            <div className="ed-service">
+              <span className="ed-service-n">// migrations</span>
+              <h3 className="ed-h2">A re-platform done in the open</h3>
+              <div className="ed-service-d">
                 The schema was rebuilt once already. 26 live migrations, a written
                 cutover runbook, an ETL script, and a reconcile script whose only
                 job is to prove the old and new datasets agree. The superseded
@@ -296,10 +290,10 @@ export default function SixBackCaseStudy() {
                 explains itself.
               </div>
             </div>
-            <div className="svc">
-              <div className="svc-n">// the contract</div>
-              <div className="svc-t">43 primitives and a written rule</div>
-              <div className="svc-d">
+            <div className="ed-service">
+              <span className="ed-service-n">// the contract</span>
+              <h3 className="ed-h2">43 primitives and a written rule</h3>
+              <div className="ed-service-d">
                 A design system with a living specimen page, governed by an
                 explicit use / extend / deviate rule — and an audit that logs
                 every place the app deviates anyway. A design system nobody can
@@ -309,79 +303,63 @@ export default function SixBackCaseStudy() {
             </div>
           </div>
         </Reveal>
+        </div>
       </section>
 
-      <section id="decisions">
-        <h2 className="sec-label">/// decisions I&apos;d defend</h2>
+      <section className="ed-section" id="decisions" aria-labelledby="decisions-heading">
+        <div className="ed-container">
+        <h2 className="ed-label" id="decisions-heading">decisions I&apos;d defend</h2>
         <Reveal>
-          <div className="prod-list">
-            <div className="prod-card cs-decision">
-              <div className="prod-top">
-                <span className="prod-name">Poll, don&apos;t webhook</span>
-              </div>
-              <div className="prod-desc">
-                Inbound payment confirmation is polled because the bank will never
+          <div className="ed-cards">
+            <article className="ed-decision">
+              <h3 className="ed-h3">Poll, don&apos;t webhook</h3>
+              <p>Inbound payment confirmation is polled because the bank will never
                 call us; outbound messaging is pushed. Choosing the right
-                direction per integration beats forcing one pattern on both.
-              </div>
-            </div>
-            <div className="prod-card cs-decision">
-              <div className="prod-top">
-                <span className="prod-name">No realtime layer</span>
-              </div>
-              <div className="prod-desc">
-                No sockets. Liveness is server-rendered revalidation and an
+                direction per integration beats forcing one pattern on both.</p>
+            </article>
+            <article className="ed-decision">
+              <h3 className="ed-h3">No realtime layer</h3>
+              <p>No sockets. Liveness is server-rendered revalidation and an
                 explicit refresh. A volleyball roster changes a few times an hour,
                 not a few times a second — a persistent connection per viewer
                 would have been infrastructure bought to solve a problem nobody
-                had.
-              </div>
-            </div>
-            <div className="prod-card cs-decision">
-              <div className="prod-top">
-                <span className="prod-name">Installable, deliberately not offline</span>
-              </div>
-              <div className="prod-desc">
-                The app installs to a phone home screen, and its service worker
+                had.</p>
+            </article>
+            <article className="ed-decision">
+              <h3 className="ed-h3">Installable, deliberately not offline</h3>
+              <p>The app installs to a phone home screen, and its service worker
                 says in a comment that it caches nothing on purpose. An app whose
                 entire content is who else is playing tonight has nothing honest
-                to show you offline.
-              </div>
-            </div>
-            <div className="prod-card cs-decision">
-              <div className="prod-top">
-                <span className="prod-name">One shell, four roles</span>
-              </div>
-              <div className="prod-desc">
-                Player, host, cohost and admin are separate passwordless sessions
+                to show you offline.</p>
+            </article>
+            <article className="ed-decision">
+              <h3 className="ed-h3">One shell, four roles</h3>
+              <p>Player, host, cohost and admin are separate passwordless sessions
                 that can be held at the same time, so testing a host flow
                 doesn&apos;t cost you your player session. Host access is
                 approval-gated rather than self-serve — publishing a game takes on
-                other people&apos;s money and evenings.
-              </div>
-            </div>
-            <div className="prod-card cs-decision">
-              <div className="prod-top">
-                <span className="prod-name">The scoreboard is a route, not a modal</span>
-              </div>
-              <div className="prod-desc">
-                Live scoring opens over the league page as an intercepting parallel
+                other people&apos;s money and evenings.</p>
+            </article>
+            <article className="ed-decision">
+              <h3 className="ed-h3">The scoreboard is a route, not a modal</h3>
+              <p>Live scoring opens over the league page as an intercepting parallel
                 route: a real URL you can send to the person holding the clipboard,
                 that still renders as a modal over the standings when you click
-                into it from there.
-              </div>
-            </div>
+                into it from there.</p>
+            </article>
           </div>
         </Reveal>
+        </div>
       </section>
 
-      <section id="stack">
-        <h2 className="sec-label">/// stack</h2>
+      <section className="ed-section" id="stack" aria-labelledby="stack-heading">
+        <div className="ed-container">
+        <h2 className="ed-label" id="stack-heading">stack</h2>
         <Reveal>
           <div className="cs-stack-cols">
-            <div className="svc">
-              <div className="svc-n">// web</div>
-              <ul className="dash-list">
+            <div className="ed-service">
+              <span className="ed-service-n">// web</span>
+              <ul className="ed-dash">
                 <li>Next.js 16 · App Router</li>
                 <li>React 19 · server components</li>
                 <li>TypeScript</li>
@@ -390,9 +368,9 @@ export default function SixBackCaseStudy() {
                 <li>Vitest</li>
               </ul>
             </div>
-            <div className="svc">
-              <div className="svc-n">// api</div>
-              <ul className="dash-list">
+            <div className="ed-service">
+              <span className="ed-service-n">// api</span>
+              <ul className="ed-dash">
                 <li>ASP.NET Core · .NET 10</li>
                 <li>EF Core · Npgsql</li>
                 <li>Vertical slice features</li>
@@ -400,9 +378,9 @@ export default function SixBackCaseStudy() {
                 <li>xUnit · Testcontainers</li>
               </ul>
             </div>
-            <div className="svc">
-              <div className="svc-n">// infra</div>
-              <ul className="dash-list">
+            <div className="ed-service">
+              <span className="ed-service-n">// infra</span>
+              <ul className="ed-dash">
                 <li>Postgres 16</li>
                 <li>Docker Compose · Coolify</li>
                 <li>Vercel · cron + blob storage</li>
@@ -413,38 +391,37 @@ export default function SixBackCaseStudy() {
             </div>
           </div>
         </Reveal>
+        </div>
       </section>
 
-      <div className="contact-block">
-        <div className="contact-glow" />
-        <div className="form-header">
-          <div className="form-header-dot" />
-          <span className="form-header-label">next_steps.md</span>
-        </div>
-        <div className="contact-cta-body">
-          <div className="eyebrow contact-cta-eyebrow">
-            currently taking on new projects
+      <div className="ed-container ed-cta-wrap">
+        <div className="ed-window ed-cta">
+          <div className="ed-window-bar">
+            <span className="ed-window-dot is-live" aria-hidden />
+            <span className="ed-window-title">next_steps.md</span>
+            <span className="ed-window-meta">// currently taking on new projects</span>
           </div>
-          <h2>
-            <span className="h-fn">Your problem is weirder than a payment form.</span>
-            <br />
-            <span className="h-str">Good. Those are the fun ones.</span>
-          </h2>
-          <div className="contact-links">
-            <a href="/#contact" className="primary">
-              Start a Project
-            </a>
+          <div className="ed-window-body">
+            <h2 className="ed-display-l">
+              Your problem is weirder than a payment form.
+              <br />
+              <span className="is-quiet">Good. Those are the </span>
+              <Mark>fun ones.</Mark>
+            </h2>
+            <div className="ed-cta-actions">
+              <Button href="/#contact" arrow>
+                Start a project
+              </Button>
+              <Button href="/#work" variant="secondary">
+                Back to the index
+              </Button>
+            </div>
           </div>
         </div>
       </div>
+      </main>
 
-      <div className="cs-back">
-        <Link href="/#work" className="more-link">
-          // back to the index
-        </Link>
-      </div>
-
-      <SiteFooter />
+      <SiteFooter base="/" />
     </>
   );
 }

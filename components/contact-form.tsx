@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { Button } from "@/components/ui";
 import { contactSchema, PROJECT_TYPES } from "@/lib/contact-schema";
 
 type ContactFormProps = {
@@ -74,126 +75,124 @@ export function ContactForm({ initialMessage = "" }: ContactFormProps) {
 
   if (successEmail) {
     return (
-      <div className="form-success is-visible" id="form-success">
-        <span className="ok">// ✓ Got it.</span>
-        <span className="info">// I&apos;ll be in touch at the email you left.</span>
-        <span className="val">{successEmail}</span>
+      <div className="ed-success" role="status" id="form-success">
+        <div className="ok">{"\u2713"} request received</div>
+        <div>
+          <span className="k">reply_to: </span>
+          <span className="v">{successEmail}</span>
+        </div>
+        <div className="c">// I&apos;ll be in touch at the email you left.</div>
       </div>
     );
   }
 
   return (
-    <>
-      <div className="form-body" id="form-wrap">
-        <div className="form-row">
-          <div className="form-field">
-            <label htmlFor="f-name">Name</label>
-            <input
-              id="f-name"
-              type="text"
-              name="name"
-              autoComplete="name"
-              placeholder="Jane Smith"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className={fieldErrors.name ? "input-error" : undefined}
-              aria-invalid={Boolean(fieldErrors.name)}
-              aria-describedby={fieldErrors.name ? "err-name" : undefined}
-            />
-            {fieldErrors.name ? (
-              <span id="err-name" className="form-error-inline" role="alert">
-                {fieldErrors.name}
-              </span>
-            ) : null}
-          </div>
-          <div className="form-field">
-            <label htmlFor="f-email">Email</label>
-            <input
-              id="f-email"
-              type="email"
-              name="email"
-              autoComplete="email"
-              placeholder="jane@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={onKeyDown}
-              className={fieldErrors.email ? "input-error" : undefined}
-              aria-invalid={Boolean(fieldErrors.email)}
-              aria-describedby={fieldErrors.email ? "err-email" : undefined}
-            />
-            {fieldErrors.email ? (
-              <span id="err-email" className="form-error-inline" role="alert">
-                {fieldErrors.email}
-              </span>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="f-type">What do you need?</label>
-          <select
-            id="f-type"
-            name="projectType"
-            value={projectType}
-            onChange={(e) => setProjectType(e.target.value)}
-            onKeyDown={onKeyDown}
-            aria-invalid={Boolean(fieldErrors.projectType)}
-            aria-describedby={
-              fieldErrors.projectType ? "err-type" : undefined
-            }
-          >
-            <option value="" disabled>
-              Select one
-            </option>
-            {PROJECT_TYPES.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-          {fieldErrors.projectType ? (
-            <span id="err-type" className="form-error-inline" role="alert">
-              {fieldErrors.projectType}
-            </span>
-          ) : null}
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="f-msg">What&apos;s broken?</label>
-          <textarea
-            id="f-msg"
-            name="message"
-            placeholder="Stack, what looks like slop, what's insecure, anything useful…"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            aria-invalid={Boolean(fieldErrors.message)}
-            aria-describedby={fieldErrors.message ? "err-msg" : undefined}
+    <div className="ed-form" id="form-wrap">
+      <div className="ed-row2">
+        <div className={fieldErrors.name ? "ed-field has-error" : "ed-field"}>
+          <label htmlFor="f-name">Name</label>
+          <input
+            id="f-name"
+            className="ed-input"
+            type="text"
+            name="name"
+            autoComplete="name"
+            placeholder="Jane Smith"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={fieldErrors.name ? "err-name" : undefined}
           />
-          {fieldErrors.message ? (
-            <span id="err-msg" className="form-error-inline" role="alert">
-              {fieldErrors.message}
+          {fieldErrors.name ? (
+            <span id="err-name" className="ed-field-error" role="alert">
+              {fieldErrors.name}
             </span>
           ) : null}
         </div>
-
-        {submitError ? (
-          <div className="form-field" role="alert">
-            <span className="form-error-inline">{submitError}</span>
-          </div>
-        ) : null}
-
-        <div className="form-actions">
-          <span className="form-note">// no obligation, just a conversation</span>
-          <button
-            type="button"
-            className="form-btn"
-            onClick={() => void submit()}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Sending…" : "Get it production-ready"}
-          </button>
+        <div className={fieldErrors.email ? "ed-field has-error" : "ed-field"}>
+          <label htmlFor="f-email">Email</label>
+          <input
+            id="f-email"
+            className="ed-input"
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="jane@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={onKeyDown}
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? "err-email" : undefined}
+          />
+          {fieldErrors.email ? (
+            <span id="err-email" className="ed-field-error" role="alert">
+              {fieldErrors.email}
+            </span>
+          ) : null}
         </div>
       </div>
-    </>
+
+      <div className={fieldErrors.projectType ? "ed-field has-error" : "ed-field"}>
+        <span className="ed-field-label" id="f-type-label">
+          What do you need?
+        </span>
+        <div
+          className="ed-choices"
+          role="radiogroup"
+          aria-labelledby="f-type-label"
+          aria-describedby={fieldErrors.projectType ? "err-type" : undefined}
+        >
+          {PROJECT_TYPES.map((t) => (
+            <label key={t} className="ed-choice">
+              <input
+                type="radio"
+                name="projectType"
+                value={t}
+                checked={projectType === t}
+                onChange={() => setProjectType(t)}
+              />
+              <span>{t}</span>
+            </label>
+          ))}
+        </div>
+        {fieldErrors.projectType ? (
+          <span id="err-type" className="ed-field-error" role="alert">
+            {fieldErrors.projectType}
+          </span>
+        ) : null}
+      </div>
+
+      <div className={fieldErrors.message ? "ed-field has-error" : "ed-field"}>
+        <label htmlFor="f-msg">What&apos;s broken?</label>
+        <textarea
+          id="f-msg"
+          className="ed-input"
+          name="message"
+          placeholder="Stack, what looks like slop, what's insecure, anything useful…"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          aria-invalid={Boolean(fieldErrors.message)}
+          aria-describedby={fieldErrors.message ? "err-msg" : undefined}
+        />
+        {fieldErrors.message ? (
+          <span id="err-msg" className="ed-field-error" role="alert">
+            {fieldErrors.message}
+          </span>
+        ) : null}
+      </div>
+
+      {submitError ? (
+        <p className="ed-form-alert" role="alert">
+          {submitError}
+        </p>
+      ) : null}
+
+      <div className="ed-form-actions">
+        <span className="ed-comment">// no obligation, just a conversation</span>
+        <Button onClick={() => void submit()} disabled={isSubmitting} arrow={!isSubmitting}>
+          {isSubmitting ? "Sending…" : "Get it production-ready"}
+        </Button>
+      </div>
+    </div>
   );
 }
