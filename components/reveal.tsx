@@ -17,7 +17,7 @@ export function Reveal({
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("in");
+          if (e.isIntersecting) e.target.classList.add("is-in");
         });
       },
       { threshold: 0.06 },
@@ -27,7 +27,7 @@ export function Reveal({
   }, []);
 
   return (
-    <div ref={ref} className={`reveal ${className}`.trim()}>
+    <div ref={ref} className={`ed-reveal ${className}`.trim()}>
       {children}
     </div>
   );

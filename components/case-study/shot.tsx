@@ -17,9 +17,9 @@ export function Shot({
     <figure className="cs-shot">
       <div className="cs-shot-pair">
         <div className="cs-shot-frame">
-          <div className="form-header">
-            <span className="form-header-dot" />
-            <span className="form-header-label">{url}</span>
+          <div className="ed-window-bar">
+            <span className="ed-window-dot" aria-hidden />
+            <span className="ed-window-title">{url}</span>
           </div>
           <img
             src={`${BASE}/${slug}-desktop.webp`}
@@ -42,7 +42,7 @@ export function Shot({
           />
         </div>
       </div>
-      <figcaption className="svc-n">{caption}</figcaption>
+      <figcaption className="ed-comment">{caption}</figcaption>
     </figure>
   );
 }

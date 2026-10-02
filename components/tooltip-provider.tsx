@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -76,6 +77,19 @@ export function TooltipProvider({ children }: { children: ReactNode }) {
       return;
     }
     applyPosition();
+  }, [content, applyPosition]);
+
+  // Keep a visible tooltip pinned to its anchor while the page scrolls
+  // (focus can trigger a smooth scroll after the tooltip was placed).
+  useEffect(() => {
+    if (content === null) return;
+    const onMove = () => applyPosition();
+    window.addEventListener("scroll", onMove, { passive: true });
+    window.addEventListener("resize", onMove);
+    return () => {
+      window.removeEventListener("scroll", onMove);
+      window.removeEventListener("resize", onMove);
+    };
   }, [content, applyPosition]);
 
   const show = useCallback((anchor: HTMLElement, node: ReactNode) => {

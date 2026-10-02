@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { ContactForm } from "@/components/contact-form";
+import { Window } from "@/components/ui";
 
 const PLACEHOLDERS = [
   "Does your app look like AI slop?",
@@ -59,29 +60,24 @@ export function HeroPrompt() {
   }, []);
 
   return (
-    <div className="form-card hero-prompt-card" id="contact">
-      <div className="form-header">
-        <div className="form-header-dot" />
-        <span className="form-header-label">
-          {isExpanded ? "rescue_request.json" : "ask_edmel"}
-        </span>
-        {!isExpanded ? (
-          <span className="form-availability">// 2 spots left this quarter</span>
-        ) : null}
-      </div>
-
+    <Window
+      id="contact"
+      live
+      title={isExpanded ? "rescue_request.json" : "ask_edmel"}
+      meta={!isExpanded ? "// 2 spots left this quarter" : undefined}
+    >
       {!isExpanded ? (
-        <div className="hero-prompt-body">
-          <p className="hero-prompt-label">Ask edmel…</p>
-          <form className="hero-prompt-bar" onSubmit={onSubmitPrompt}>
-            <label htmlFor={inputId} className="sr-only">
+        <>
+          <p className="ed-ask-label">Ask edmel…</p>
+          <form className="ed-ask-bar" onSubmit={onSubmitPrompt}>
+            <label htmlFor={inputId} className="ed-sr">
               What should we fix in your app?
             </label>
             <input
               ref={inputRef}
               id={inputId}
               type="text"
-              className="hero-prompt-input"
+              className="ed-ask-input"
               value={promptValue}
               onChange={onChange}
               onFocus={onFocus}
@@ -90,29 +86,27 @@ export function HeroPrompt() {
             />
             <button
               type="submit"
-              className="hero-prompt-send"
-              aria-label="Continue"
+              className="ed-ask-send"
+              aria-label="Start a rescue conversation"
             >
               <svg
-                width="16"
-                height="16"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.2"
                 aria-hidden
               >
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </button>
           </form>
-          <p className="hero-prompt-hint">
-            // hit enter to start a rescue conversation
-          </p>
-        </div>
+          <p className="ed-ask-hint">// hit enter to start a rescue conversation</p>
+        </>
       ) : (
         <ContactForm initialMessage={initialMessage} />
       )}
-    </div>
+    </Window>
   );
 }
