@@ -18,17 +18,21 @@ e-Transfer, or free months on request. Nothing the app reads on screen ever reac
 | `/nahmeter/admin` | owner only (password): accounts, record an e-Transfer, grant free months |
 | `/.well-known/assetlinks.json` | lets the email link open the app (Android App Links) |
 
-Data: `supabase/migrations/*_nahmeter.sql` (three tables, RLS on with no policies, so only this server
-can read or write them; `nahmeter_record_payment` adds months atomically).
+Data: `supabase/migrations/*_nahmeter.sql`, in its own `nahmeter` schema: `accounts`, `payments` and
+`signin_requests`, with RLS on and no policies. Only the service role (this server) can use the schema;
+`anon` and `authenticated` have no access. `nahmeter.record_payment` adds months atomically.
 
 ## One-time setup
 
 1. **Database:** the migration is applied to the Supabase project **"default"**
    (`bkagbhgycjdtkxpaecly`, US West). It shares that project with other apps: nah.meter's tables
-   are all `nahmeter_*`, and its sign-in doesn't touch the project's auth email templates.
+   live in the `nahmeter` schema, and its sign-in doesn't touch the project's auth email templates.
+   **Supabase → Project Settings → Data API → Exposed schemas: add `nahmeter`** and save, or every
+   call fails with "Invalid schema: nahmeter". Exposing it doesn't open it to the public key: only
+   the service role has access.
 2. **Sign-in emails** are made here (`auth.admin.generateLink`) and sent through Resend with the
    contact form's `RESEND_API_KEY` and `RESEND_FROM`, from "nah.meter <that address>". Limits: one
-   a minute and five an hour per address (`nahmeter_signin_requests`).
+   a minute and five an hour per address (`nahmeter.signin_requests`).
 3. **Vercel → Settings → Environment variables** (Production and Preview):
    - `SUPABASE_URL` = `https://bkagbhgycjdtkxpaecly.supabase.co`
    - `SUPABASE_ANON_KEY` = the project's anon key (Supabase → Settings → API)
@@ -39,8 +43,8 @@ can read or write them; `nahmeter_record_payment` adds months atomically).
 4. **App Links:** `public/.well-known/assetlinks.json` holds the SHA-256 of the key that signs
    `nahmeter.apk` (read from the published release). If the signing key ever changes, update it.
 5. **Moving to its own project later** (e.g. Canada, once a free slot or Pro is available): create
-   it, run `supabase/migrations/*_nahmeter.sql`, change the three `SUPABASE_*` values, and update
-   the privacy policy's "Where".
+   it, run `supabase/migrations/*_nahmeter.sql`, expose the `nahmeter` schema, change the three
+   `SUPABASE_*` values, and update the privacy policy's "Where".
 
 ## Recording payments
 

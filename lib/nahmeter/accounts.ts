@@ -1,5 +1,6 @@
-import type { SupabaseClient, User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import { CONTACT_EMAIL, PRICE_CENTS, type NahmeterEnv } from "@/lib/nahmeter/config";
+import type { AdminClient } from "@/lib/nahmeter/supabase";
 
 export type Account = {
   user_id: string;
@@ -37,14 +38,14 @@ function newPayCode(): string {
 }
 
 /** The account for a signed-in user, created on first use (that starts the 14-day trial). */
-export async function ensureAccount(admin: SupabaseClient, user: User): Promise<Account> {
+export async function ensureAccount(admin: AdminClient, user: User): Promise<Account> {
   for (let attempt = 0; attempt < 6; attempt++) {
-    const found = await admin.from("nahmeter_accounts").select("*").eq("user_id", user.id).maybeSingle();
+    const found = await admin.from("accounts").select("*").eq("user_id", user.id).maybeSingle();
     if (found.error) throw found.error;
     if (found.data) return found.data as Account;
 
     const inserted = await admin
-      .from("nahmeter_accounts")
+      .from("accounts")
       .insert({ user_id: user.id, email: user.email ?? "", pay_code: newPayCode() })
       .select("*")
       .single();
@@ -76,7 +77,7 @@ export function licenceFor(account: Account, env: NahmeterEnv, now = new Date())
 }
 
 /** The user behind an `Authorization: Bearer <access token>` header, or null. */
-export async function userFromRequest(admin: SupabaseClient, request: Request): Promise<User | null> {
+export async function userFromRequest(admin: AdminClient, request: Request): Promise<User | null> {
   const header = request.headers.get("authorization") ?? "";
   const match = header.match(/^Bearer\s+(.+)$/i);
   if (!match) return null;

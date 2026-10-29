@@ -11,10 +11,10 @@ async function addMonths(payCode: string, months: number, amountCents: number, r
   const admin = adminClient(cfg.env);
 
   const code = payCode.trim().toUpperCase();
-  const account = await admin.from("nahmeter_accounts").select("user_id,email").eq("pay_code", code).maybeSingle();
+  const account = await admin.from("accounts").select("user_id,email").eq("pay_code", code).maybeSingle();
   if (account.error || !account.data) redirect("/nahmeter/admin?msg=" + encodeURIComponent(`No account with code ${code}.`));
 
-  const { data, error } = await admin.rpc("nahmeter_record_payment", {
+  const { data, error } = await admin.rpc("record_payment", {
     p_user: account.data.user_id,
     p_months: months,
     p_amount_cents: amountCents,

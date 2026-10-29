@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
   // At most one email a minute and five an hour to the same address.
   const recent = await admin
-    .from("nahmeter_signin_requests")
+    .from("signin_requests")
     .select("created_at")
     .eq("email", email)
     .gte("created_at", new Date(Date.now() - HOUR_MS).toISOString())
@@ -70,6 +70,6 @@ export async function POST(request: Request) {
   });
   if (error) return fail(502, "Couldn't send the email. Try again.");
 
-  await admin.from("nahmeter_signin_requests").insert({ email });
+  await admin.from("signin_requests").insert({ email });
   return Response.json({ ok: true });
 }

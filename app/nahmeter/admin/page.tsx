@@ -25,7 +25,7 @@ export default async function NahmeterAdmin({ searchParams }: { searchParams: Pr
   }
 
   const { data, error } = await adminClient(cfg.env)
-    .from("nahmeter_accounts")
+    .from("accounts")
     .select("*")
     .order("created_at", { ascending: false })
     .limit(500);
