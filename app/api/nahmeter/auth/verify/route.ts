@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
   const { data, error } = await authClient(cfg.env).auth.verifyOtp({
     token_hash: parsed.data.token_hash,
-    type: "email",
+    type: "magiclink",
   });
   if (error || !data.session || !data.user) {
     return fail(401, "That sign-in link has expired or was already used. Send a new one.");

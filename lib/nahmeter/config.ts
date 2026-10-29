@@ -15,6 +15,9 @@ const envSchema = z.object({
   NAHMETER_PAY_EMAIL: z.string().email(),
   /** The admin page's password (HTTP Basic, any user name). */
   NAHMETER_ADMIN_PASSWORD: z.string().min(16),
+  /** Sign-in emails go out through Resend (same account as the contact form), from its verified address. */
+  RESEND_API_KEY: z.string().min(1),
+  RESEND_FROM: z.string().min(3),
   /** The site the sign-in link points at; it must serve /nahmeter/auth/confirm. */
   NAHMETER_SITE_URL: z.string().url().default("https://edmel.dev"),
 });

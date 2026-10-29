@@ -24,9 +24,19 @@ create table public.nahmeter_payments (
 
 create index nahmeter_payments_user_idx on public.nahmeter_payments (user_id);
 
+-- Sign-in emails sent, so one address can't be flooded (edmel.dev sends them through Resend).
+create table public.nahmeter_signin_requests (
+  id bigint generated always as identity primary key,
+  email text not null,
+  created_at timestamptz not null default now()
+);
+
+create index nahmeter_signin_requests_email_idx on public.nahmeter_signin_requests (email, created_at desc);
+
 -- RLS on with no policies: the anon and authenticated roles can't touch these tables at all.
 alter table public.nahmeter_accounts enable row level security;
 alter table public.nahmeter_payments enable row level security;
+alter table public.nahmeter_signin_requests enable row level security;
 
 -- Adds months (paid, or free on request) and records the payment in one step. Months start from the
 -- latest of now, the end of the trial and the current paid date, so paying early loses nothing.
