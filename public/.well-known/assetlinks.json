@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.nahmeter",
+      "sha256_cert_fingerprints": [
+        "E3:0D:EC:3F:69:D4:5D:03:CF:D8:9B:57:0A:50:97:65:56:C2:50:58:3D:D9:FA:34:FE:B3:E6:A3:95:C0:47:22"
+      ]
+    }
+  }
+]
