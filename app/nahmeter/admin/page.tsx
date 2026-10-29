@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { grantFreeMonths, recordPayment } from "@/app/nahmeter/admin/actions";
+import { grantFreeMonths, recordPayment, sendAdminLink, signOutAdmin } from "@/app/nahmeter/admin/actions";
 import { licenceFor, type Account } from "@/lib/nahmeter/accounts";
+import { isAdmin } from "@/lib/nahmeter/admin-session";
 import { nahmeterEnv } from "@/lib/nahmeter/config";
 import { adminClient } from "@/lib/nahmeter/supabase";
 
@@ -9,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 const day = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("en-CA", { dateStyle: "medium" }) : "—");
 
-/** Owner only (Basic auth in middleware.ts): accounts, and recording e-Transfers or free months. */
+/** Owner only (signed in by email link to NAHMETER_ADMIN_EMAIL): accounts, and recording e-Transfers or free months. */
 export default async function NahmeterAdmin({ searchParams }: { searchParams: Promise<{ msg?: string }> }) {
   const { msg } = await searchParams;
   const cfg = nahmeterEnv();
@@ -19,6 +20,21 @@ export default async function NahmeterAdmin({ searchParams }: { searchParams: Pr
         <div className="ed-container ed-section">
           <h1 className="ed-h1">nah.meter admin</h1>
           <p className="ed-body">Not set up yet. Missing: {cfg.missing.join(", ")}.</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!(await isAdmin(cfg.env))) {
+    return (
+      <main className="ed-page">
+        <div className="ed-container ed-section" style={{ display: "grid", gap: "var(--space-5)", maxWidth: 520 }}>
+          <h1 className="ed-h1">nah.meter admin</h1>
+          {msg ? <p className="ed-mono" role="status">{msg}</p> : null}
+          <form action={sendAdminLink}>
+            <div className="ed-field"><label htmlFor="email">Email</label><input id="email" name="email" className="ed-input" type="email" autoComplete="email" required /></div>
+            <button type="submit" className="ed-btn ed-btn-primary">Send sign-in link</button>
+          </form>
         </div>
       </main>
     );
@@ -34,7 +50,10 @@ export default async function NahmeterAdmin({ searchParams }: { searchParams: Pr
   return (
     <main className="ed-page">
       <div className="ed-container ed-section" style={{ display: "grid", gap: "var(--space-7)" }}>
-        <h1 className="ed-h1">nah.meter admin</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--space-4)", flexWrap: "wrap" }}>
+          <h1 className="ed-h1">nah.meter admin</h1>
+          <form action={signOutAdmin}><button type="submit" className="ed-btn ed-btn-secondary">Sign out</button></form>
+        </div>
         {msg ? <p className="ed-mono" role="status">{msg}</p> : null}
         {error ? <p className="ed-mono">Couldn&apos;t load accounts: {error.message}</p> : null}
 

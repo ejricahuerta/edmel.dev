@@ -13,12 +13,12 @@ const envSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
   /** Where couriers send their Interac e-Transfer (Autodeposit on). */
   NAHMETER_PAY_EMAIL: z.string().email(),
-  /** The admin page's password (HTTP Basic, any user name). */
-  NAHMETER_ADMIN_PASSWORD: z.string().min(16),
+  /** The one address that can sign in to the admin page (by email link). */
+  NAHMETER_ADMIN_EMAIL: z.string().trim().toLowerCase().email().default(CONTACT_EMAIL),
   /** Sign-in emails go out through Resend (same account as the contact form), from its verified address. */
   RESEND_API_KEY: z.string().min(1),
   RESEND_FROM: z.string().min(3),
-  /** The site the sign-in link points at; it must serve /nahmeter/auth/confirm. */
+  /** The site the sign-in links point at; it must serve /nahmeter/auth/confirm and /nahmeter/admin/confirm. */
   NAHMETER_SITE_URL: z.string().url().default("https://edmel.dev"),
 });
 

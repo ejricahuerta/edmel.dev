@@ -15,7 +15,8 @@ e-Transfer, or free months on request. Nothing the app reads on screen ever reac
 | `POST /api/nahmeter/account/delete` | Bearer token → deletes the account and its payments |
 | `/nahmeter` | public page: what it is, price, how to pay, terms and privacy |
 | `/nahmeter/auth/confirm` | where the email link lands when it doesn't open the app |
-| `/nahmeter/admin` | owner only (password): accounts, record an e-Transfer, grant free months |
+| `/nahmeter/admin` | owner only (email link to `NAHMETER_ADMIN_EMAIL`): accounts, record an e-Transfer, grant free months |
+| `/nahmeter/admin/confirm` | where the admin's sign-in link lands (a Sign in button, so link scanners can't use it up) |
 | `/.well-known/assetlinks.json` | lets the email link open the app (Android App Links) |
 
 Data: `supabase/migrations/*_nahmeter.sql`, in its own `nahmeter` schema: `accounts`, `payments` and
@@ -38,7 +39,8 @@ Data: `supabase/migrations/*_nahmeter.sql`, in its own `nahmeter` schema: `accou
    - `SUPABASE_ANON_KEY` = the project's anon key (Supabase → Settings → API)
    - `SUPABASE_SERVICE_ROLE_KEY` = the service role key (same page; secret, server only)
    - `NAHMETER_PAY_EMAIL` = `pay@edmel.dev`
-   - `NAHMETER_ADMIN_PASSWORD` = a long random string (16+ characters)
+   - `NAHMETER_ADMIN_EMAIL` (optional) = the one address that can sign in to the admin page;
+     defaults to `contact@edmel.dev`. There's no admin password.
    - `RESEND_API_KEY` and `RESEND_FROM` are already there for the contact form.
 4. **App Links:** `public/.well-known/assetlinks.json` holds the SHA-256 of the key that signs
    `nahmeter.apk` (read from the published release). If the signing key ever changes, update it.
@@ -49,6 +51,7 @@ Data: `supabase/migrations/*_nahmeter.sql`, in its own `nahmeter` schema: `accou
 ## Recording payments
 
 Interac e-Transfers arrive at `NAHMETER_PAY_EMAIL` with the courier's pay code in the message. Open
-`/nahmeter/admin`, enter the code and the amount: every full $5 adds a month, starting after the trial
+`/nahmeter/admin` (signed out, it emails a sign-in link to the admin address; you stay signed in for
+a week), enter the code and the amount: every full $5 adds a month, starting after the trial
 or the current paid date, whichever is later. "Grant free months" does the same at $0 with a note.
 The app picks it up on its next check, or when the courier taps Check again.
