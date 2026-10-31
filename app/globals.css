@@ -473,6 +473,7 @@ a.ed-card:hover { background: var(--surface-1); }
 @media (min-width: 720px) { .cs-shot-mobile { display: block; } }
 .cs-shot figcaption { margin-top: var(--space-3); }
 .cs-back { position: relative; z-index: 1; padding-bottom: var(--space-8); }
+.cs-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--surface-2); }
 
 /* architecture diagram (components/case-study/arch-diagram.tsx) */
 .cs-diagram { display: block; width: 100%; height: auto; }

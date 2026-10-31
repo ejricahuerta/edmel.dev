@@ -267,6 +267,47 @@ export default function Home() {
             <div className="ed-gap-8" />
 
             <div className="ed-intro">
+              <p className="ed-h3">Android</p>
+              <p className="ed-body">
+                A native app for people who have fifteen seconds, not a desk.
+              </p>
+            </div>
+            <div className="ed-cards">
+              <Link href="/work/nah-meter" className="ed-card ed-card-feature">
+                <div className="ed-card-head">
+                  <h3 className="ed-h2">nah.meter</h3>
+                  <span className="ed-card-url">
+                    read the case study <Arrow />
+                  </span>
+                  <StatusPill status="resolved" className="ed-card-tag">
+                    case study
+                  </StatusPill>
+                </div>
+                <div className="ed-card-desc">
+                  Reads every{" "}
+                  <Squiggle
+                    inLink
+                    variant="warn"
+                    code="RateNotShown"
+                    message={
+                      <>
+                        Expected: <span className="tt-type">perHour</span>, received:{" "}
+                        <span className="tt-type">pay | minutes | km</span>
+                      </>
+                    }
+                  >
+                    delivery offer
+                  </Squiggle>{" "}
+                  off the screen with on-device OCR, does the $/hr maths against the
+                  courier&apos;s own rules, and answers in one word before the timer runs out.
+                  Never taps, never goes online.
+                </div>
+              </Link>
+            </div>
+
+            <div className="ed-gap-8" />
+
+            <div className="ed-intro">
               <p className="ed-h3">Client builds</p>
               <p className="ed-body">
                 Live production sites for local businesses. Designed, built, and

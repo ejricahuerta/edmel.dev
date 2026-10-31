@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArchDiagram } from "@/components/case-study/arch-diagram";
 import { Shot } from "@/components/case-study/shot";
-import { StatStrip } from "@/components/case-study/stat-strip";
+import { type Stat, StatStrip } from "@/components/case-study/stat-strip";
 import { Reveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -29,6 +29,15 @@ export const metadata: Metadata = {
     ],
   },
 };
+
+const STATS: Stat[] = [
+  { id: "loc", value: "138k", label: "lines of code, two runtimes" },
+  { id: "tables", value: "37", label: "postgres tables · 26 live migrations" },
+  { id: "tests", value: "186", label: "test files · vitest + xunit" },
+  { id: "routes", value: "195", label: "api routes · 17 vertical slices" },
+  { id: "primitives", value: "43", label: "design-system primitives" },
+  { id: "processors", value: "0", label: "payment processors", accent: true },
+];
 
 export default function SixBackCaseStudy() {
   return (
@@ -98,7 +107,7 @@ export default function SixBackCaseStudy() {
       <section className="ed-section" id="at-a-glance" aria-labelledby="at-a-glance-heading">
         <div className="ed-container">
         <h2 className="ed-label" id="at-a-glance-heading">at a glance</h2>
-        <StatStrip />
+        <StatStrip stats={STATS} />
         </div>
       </section>
 
