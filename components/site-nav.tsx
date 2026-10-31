@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button, Logo } from "@/components/ui";
-import { SOCIALS } from "@/lib/site";
+import { RESUME_URL, SOCIALS } from "@/lib/site";
 
 type Theme = "dark" | "light";
 
@@ -68,6 +68,11 @@ export function SiteNav({
                 </Link>
               </li>
             ))}
+            <li>
+              <a href={RESUME_URL} target="_blank" rel="noopener noreferrer">
+                Resume {"↗"}
+              </a>
+            </li>
           </ul>
         </nav>
 
