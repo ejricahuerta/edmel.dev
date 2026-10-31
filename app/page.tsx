@@ -168,9 +168,9 @@ export default function Home() {
             <div className="ed-intro">
               <p className="ed-h3">The Rosetta Suite</p>
               <p className="ed-body">
-                3 live AI-powered tools. One umbrella brand. Each shipped as sole
-                engineer, from concept to production apps that don’t read as
-                generated filler.
+                3 live AI-powered tools. One umbrella brand. Each shipped from
+                concept to production as apps that don’t read as generated
+                filler.
               </p>
               <Chips items={["SvelteKit", "Supabase", "OpenAI API", "Stripe", "PostHog", "Vercel"]} />
             </div>

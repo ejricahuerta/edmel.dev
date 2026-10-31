@@ -78,7 +78,6 @@ export default function NahMeterCaseStudy() {
               <div className="ed-window-body">
                 <SpecList
                   items={[
-                    ["role", "sole engineer"],
                     ["timeline", "Oct 2026 · v1 to v1.0.92 in 3 days"],
                     ["status", "sideloaded APK · Android 8+"],
                     ["scale", "5.7k lines Kotlin · 52 tests"],

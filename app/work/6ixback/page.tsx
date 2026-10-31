@@ -89,7 +89,6 @@ export default function SixBackCaseStudy() {
             <div className="ed-window-body">
               <SpecList
                 items={[
-                  ["role", "sole engineer"],
                   ["timeline", "Apr – Sep 2026"],
                   ["status", "live in production"],
                   ["scale", "138k lines · 186 test files"],
